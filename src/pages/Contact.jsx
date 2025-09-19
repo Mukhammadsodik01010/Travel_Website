@@ -1,29 +1,38 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Contact() {
-  const [messageSent, setMessageSent] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessageSent(true);
+    setSent(true);
+    // normally you'd call an API here; for lab we just show success message
   };
 
   return (
     <div className="page">
       <h1>Contact Us</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Name:</label>
-        <input type="text" required />
-        <label>Email:</label>
-        <input type="email" required />
-        <label>Message:</label>
-        <textarea required></textarea>
-        <button type="submit">Send</button>
+      <p>If you have questions or suggestions, please send us a message.</p>
+
+      <form className="contact-form" onSubmit={handleSubmit}>
+        <label>Name</label>
+        <input required type="text" placeholder="Your name" />
+
+        <label>Email</label>
+        <input required type="email" placeholder="you@example.com" />
+
+        <label>Message</label>
+        <textarea required rows="5" placeholder="Write your message..." />
+
+        <button type="submit" className="btn">
+          Send
+        </button>
       </form>
-      {messageSent && (
-        <p className="success-message">
-          Thank you! Your message has been sent.
-        </p>
+
+      {sent && (
+        <div className="success-message">
+          Thank you — your message was sent!
+        </div>
       )}
     </div>
   );

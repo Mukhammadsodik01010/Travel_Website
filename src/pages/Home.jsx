@@ -1,46 +1,35 @@
+import React from "react";
 import Recommendation from "../components/Recommandation";
+import SearchResults from "../components/SearchResults";
 
-const recommendations = [
-  {
-    type: "Beach",
-    country: "Maldives",
-    images:
-      "https://t3.ftcdn.net/jpg/02/43/25/90/360_F_243259090_crbVsAqKF3PC2jk2eKiUwZHBPH8Q6y9Y.jpg",
-    description:
-      "Relax on pristine white sand beaches and enjoy crystal-clear waters.",
-  },
-  {
-    type: "Temple",
-    country: "Thailand",
-    images:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpTqNLc2NgBnf612YwHobIdauxmQDkweNQhA&s",
-    description: "Discover ancient temples and rich cultural heritage.",
-  },
-  {
-    type: "Country",
-    country: "Japan",
-    images:
-      "https://www.commonwealthfund.org/sites/default/files/styles/countries_hero_desktop/public/country_image_Japan.jpg?h=fcdfd899&itok=bPWz69YA",
-    description:
-      "Experience modern cities, traditional shrines, and stunning landscapes.",
-  },
-];
-
-export default function Home() {
+export default function Home({ data, searchTriggered, query, results }) {
+  // Show intro and either full featured recommendations or search results
   return (
     <div className="page">
       <section className="intro">
         <h1>Discover Your Next Adventure</h1>
-        <p>
-          Explore destinations based on your preferences with personalized
-          suggestions.
+        <p className="lead">
+          Personalized travel recommendations — beaches, temples, and countries.
+          Use the search bar above to find recommendations.
         </p>
       </section>
-      <section className="recommendations-section">
-        {recommendations.map((rec, index) => (
-          <Recommendation key={index} {...rec} />
-        ))}
-      </section>
+
+      {/* If user searched, show search results inline on Home */}
+      {searchTriggered ? (
+        <SearchResults query={query} results={results} />
+      ) : (
+        <>
+          <h2>Featured Recommendations</h2>
+          <div className="results-grid">
+            {/* Show a representative selection: first beach, first temple, first country */}
+            {data
+              .filter((it, idx) => idx < 6) // show some items
+              .map((item) => (
+                <Recommendation key={item.id} item={item} />
+              ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

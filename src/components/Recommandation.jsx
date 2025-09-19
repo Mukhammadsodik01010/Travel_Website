@@ -1,17 +1,18 @@
-export default function Recommendation({ type, country, description, images }) {
-  // Make sure images is always an array
-  const imagesArray = Array.isArray(images) ? images : [images];
+import React from "react";
+
+export default function Recommendation({ item }) {
+  // images array or fallback
+  const images = Array.isArray(item.images) ? item.images : [item.images];
 
   return (
-    <div className="recommendation">
-      <h2>
-        {type} Recommendation: {country}
-      </h2>
-      <p>{description}</p>
-      <div className="images">
-        {imagesArray.map((img, index) => (
-          <img key={index} src={img} alt={`${type} ${index + 1}`} />
-        ))}
+    <div className="card">
+      <div className="card-left">
+        <h3>{item.name}</h3>
+        <p className="muted">{item.type.toUpperCase()}</p>
+        <p>{item.description}</p>
+      </div>
+      <div className="card-right">
+        <img src={images[0]} alt={`${item.name} thumb`} />
       </div>
     </div>
   );
